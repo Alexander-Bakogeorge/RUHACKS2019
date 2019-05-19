@@ -1,3 +1,6 @@
+#Server code from https://github.com/metaflow-ai/blog
+#Model Trained in https://github.com/ArunMichaelDsouza/tensorflow-image-detection
+
 import json, argparse, time
 
 import tensorflow as tf
