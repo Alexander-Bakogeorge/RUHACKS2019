@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script>
+            function encodeImageFileAsURL(element) {
+                var file = element[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    console.log('RESULT', reader.result)
+                    //return reader.result;
+                    var xhttp = new XMLHttpRequest();
+                    xhttp.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            alert(this.responseText);
+                        }
+                    };
+                    xhttp.open("POST", "http://127.0.0.1:5000/api/predict", true);
+                    xhttp.setRequestHeader("Content-type", "application/json");
+                    xhttp.send(JSON.stringify({ 'x': reader.result.substring(23, reader.result.length) }));
+                }
+                reader.readAsDataURL(file);
+                //return file;
+            }
+
+            $(function(){
+            $('#submitUpload').on('click', function(){
+                /*var file = document.getElementById("upload").files[0];
+                var form = new FormData();
+                //form.append("x", file);
+                form.append('json', JSON.stringify({ 'x': file }));
+
+                var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "http://127.0.0.1:5000/api/predict",
+                "method": "POST",
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": form
+                };
+
+                $.ajax(settings).done(function (response) {
+                console.log(response);
+                });
+                */                
+                var file = document.getElementById("upload").files;
+
+                data = encodeImageFileAsURL(file);
+
+                
+            });
+            });
+        </script>
+    </head>
+    <body>
+        <input id="upload" type="file" name="fileToUpload" id="fileToUpload">
+        <input id="submitUpload" type="submit" value="Upload Image" name="submit">
+    </body>
+</html>
